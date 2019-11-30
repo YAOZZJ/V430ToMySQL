@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="V430ToMySQL.Control.Ribbon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Fluent="urn:fluent-ribbon"
+             xmlns:local="clr-namespace:V430ToMySQL.Control"
+             mc:Ignorable="d">
+    <Grid>
+        <Fluent:Ribbon>
+            <Fluent:RibbonTabItem Header="Home">
+                <Fluent:RibbonGroupBox Header="Main">
+                    <Fluent:Button Size="Middle" Command="{Binding Cmd1}">B1</Fluent:Button>
+                    <Fluent:Button Size="Middle" Command="{Binding Cmd2}">B2</Fluent:Button>
+                    <Fluent:Button Size="Middle" Command="{Binding Cmd3}">B3</Fluent:Button>
+                    <Fluent:Button Size="Middle" Command="{Binding Cmd4}">B4</Fluent:Button>
+                    <Fluent:Button Size="Middle" Command="{Binding Cmd5}">B5</Fluent:Button>
+                    <Fluent:Button Size="Middle" Command="{Binding Cmd6}">B6</Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Connection">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center">Protocol</TextBlock>
+                        <Fluent:ToggleButton Grid.Row="1" Size="Middle"
+                                             Command="{Binding CmdConnect}"
+                                             IsChecked="{Binding IsConnect}"
+                                             >Connect</Fluent:ToggleButton>
+                        <Fluent:ComboBox Grid.Row="0" Grid.Column="1" Width="100" 
+                                         IsEditable="False" 
+                                         SelectedIndex="1" ItemsSource="{Binding ProtocolList}" 
+                                         IsEnabled="False"
+                                         ></Fluent:ComboBox>
+                        <Fluent:ComboBox Grid.Row="1" Grid.Column="1" Width="100" 
+                                         IsEditable="False" 
+                                         SelectedIndex="1" ItemsSource="{Binding CommMethodList}" 
+                                         IsEnabled="False"
+                                         ></Fluent:ComboBox>
+                    </Grid>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Comm Settings">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right">RemoteIP</TextBlock>
+                        <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">LocalIP</TextBlock>
+                        <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Port</TextBlock>
+                        <Fluent:ComboBox Grid.Row="0" Grid.Column="1" Width="120" 
+                                         SelectedIndex="0" ItemsSource="{Binding IpList}"
+                                         Text="{Binding Ip}"
+                                         ></Fluent:ComboBox>
+                        <Fluent:ComboBox Grid.Row="1" Grid.Column="1" Width="120" 
+                                         SelectedIndex="0" ItemsSource="{Binding IpList}"
+                                         IsEnabled="False"
+                                         ></Fluent:ComboBox>
+                        <Fluent:ComboBox Grid.Row="2" Grid.Column="1" Width="120" 
+                                         SelectedIndex="0" ItemsSource="{Binding PortList}"
+                                         Text="{Binding Port}"
+                                         ></Fluent:ComboBox>
+                    </Grid>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="MySQL Settings">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="5 0 5 0"/>
+                            </Style>
+                        </Grid.Resources>
+                        <TextBlock Grid.Row="0" Text="RemoteIP"/>
+                        <TextBlock Grid.Row="1" Text="Port"/>
+                        <TextBlock Grid.Row="2" Text="Database"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="User"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Password"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="Table"/>
+                        <Fluent:ComboBox Grid.Row="0" Grid.Column="1" Width="120"/>
+                        <Fluent:ComboBox Grid.Row="1" Grid.Column="1" Width="120"/>
+                        <Fluent:ComboBox Grid.Row="2" Grid.Column="1" Width="120"/>
+                        <Fluent:ComboBox Grid.Row="0" Grid.Column="3" Width="120"/>
+                        <Fluent:ComboBox Grid.Row="1" Grid.Column="3" Width="120"/>
+                        <Fluent:ComboBox Grid.Row="2" Grid.Column="3" Width="120"/>
+                    </Grid>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>
+    </Grid>
+</UserControl>
