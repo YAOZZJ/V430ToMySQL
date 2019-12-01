@@ -80,7 +80,9 @@
     <Compile Include="Control\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Service\Message.cs" />
     <Compile Include="Service\MySQLService.cs" />
+    <Compile Include="Service\MyViewModelBase.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\MainView.xaml.cs">

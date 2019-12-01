@@ -18,31 +18,8 @@
                     <Fluent:Button Size="Middle" Command="{Binding Cmd6}">B6</Fluent:Button>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Connection">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center">Protocol</TextBlock>
-                        <Fluent:ToggleButton Grid.Row="1" Size="Middle"
-                                             Command="{Binding CmdConnect}"
-                                             IsChecked="{Binding IsConnect}"
-                                             >Connect</Fluent:ToggleButton>
-                        <Fluent:ComboBox Grid.Row="0" Grid.Column="1" Width="100" 
-                                         IsEditable="False" 
-                                         SelectedIndex="1" ItemsSource="{Binding ProtocolList}" 
-                                         IsEnabled="False"
-                                         ></Fluent:ComboBox>
-                        <Fluent:ComboBox Grid.Row="1" Grid.Column="1" Width="100" 
-                                         IsEditable="False" 
-                                         SelectedIndex="1" ItemsSource="{Binding CommMethodList}" 
-                                         IsEnabled="False"
-                                         ></Fluent:ComboBox>
-                    </Grid>
+                    <Fluent:ToggleButton Size="Middle">Connect To V430</Fluent:ToggleButton>
+                    <Fluent:ToggleButton Size="Middle">Connect To MySql</Fluent:ToggleButton>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Comm Settings">
                     <Grid>
@@ -59,16 +36,16 @@
                         <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">LocalIP</TextBlock>
                         <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Port</TextBlock>
                         <Fluent:ComboBox Grid.Row="0" Grid.Column="1" Width="120" 
-                                         SelectedIndex="0" ItemsSource="{Binding IpList}"
-                                         Text="{Binding Ip}"
+                                         SelectedIndex="0" ItemsSource="{Binding V430IpList}"
+                                         Text="{Binding V430Ip}"
                                          ></Fluent:ComboBox>
-                        <Fluent:ComboBox Grid.Row="1" Grid.Column="1" Width="120" 
-                                         SelectedIndex="0" ItemsSource="{Binding IpList}"
-                                         IsEnabled="False"
-                                         ></Fluent:ComboBox>
+                        <Fluent:TextBox Grid.Row="1" Grid.Column="1" Width="120" 
+                                         IsReadOnly="True"
+                                         Text="{Binding LocalIp}"
+                                         ></Fluent:TextBox>
                         <Fluent:ComboBox Grid.Row="2" Grid.Column="1" Width="120" 
-                                         SelectedIndex="0" ItemsSource="{Binding PortList}"
-                                         Text="{Binding Port}"
+                                         SelectedIndex="0" ItemsSource="{Binding V430PortList}"
+                                         Text="{Binding V430Port}"
                                          ></Fluent:ComboBox>
                     </Grid>
                 </Fluent:RibbonGroupBox>
@@ -98,12 +75,24 @@
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="User"/>
                         <TextBlock Grid.Row="1" Grid.Column="2" Text="Password"/>
                         <TextBlock Grid.Row="2" Grid.Column="2" Text="Table"/>
-                        <Fluent:ComboBox Grid.Row="0" Grid.Column="1" Width="120"/>
-                        <Fluent:ComboBox Grid.Row="1" Grid.Column="1" Width="120"/>
-                        <Fluent:ComboBox Grid.Row="2" Grid.Column="1" Width="120"/>
-                        <Fluent:ComboBox Grid.Row="0" Grid.Column="3" Width="120"/>
-                        <Fluent:ComboBox Grid.Row="1" Grid.Column="3" Width="120"/>
-                        <Fluent:ComboBox Grid.Row="2" Grid.Column="3" Width="120"/>
+                        <Fluent:ComboBox Grid.Row="0" Grid.Column="1" Width="120"
+                                         SelectedIndex="0" ItemsSource="{Binding MySqlIpList}"
+                                         Text="{Binding MySqlIp}"
+                                         />
+                        <Fluent:ComboBox Grid.Row="1" Grid.Column="1" Width="120"
+                                         SelectedIndex="0" ItemsSource="{Binding MySqlPortList}"
+                                         Text="{Binding MySqlPort}"
+                                         />
+                        <Fluent:ComboBox Grid.Row="2" Grid.Column="1" Width="120"
+                                         SelectedIndex="0" ItemsSource="{Binding DatabaseNameList}"
+                                         Text="{Binding DatabaseName}"
+                                         />
+                        <Fluent:TextBox Grid.Row="0" Grid.Column="3" Width="120" Text="{Binding UserName}"/>
+                        <Fluent:TextBox Grid.Row="1" Grid.Column="3" Width="120" Text="{Binding Password}"/>
+                        <Fluent:ComboBox Grid.Row="2" Grid.Column="3" Width="120"
+                                         SelectedIndex="0" ItemsSource="{Binding TableNameList}"
+                                         Text="{Binding TableName}"
+                                         />
                     </Grid>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>

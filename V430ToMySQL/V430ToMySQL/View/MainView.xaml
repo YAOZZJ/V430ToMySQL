@@ -12,7 +12,13 @@
         <ctrl:Ribbon DockPanel.Dock="Top"/>
         <ctrl:StatusBar DockPanel.Dock="Bottom"/>
         <Grid>
-            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
+            <TextBox x:Name="TxtMessage" Grid.Column="2" IsReadOnly="True" MinWidth="200"/>
         </Grid>
     </DockPanel>
 </Window>

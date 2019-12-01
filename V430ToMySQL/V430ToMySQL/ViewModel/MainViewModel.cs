@@ -1,37 +1,79 @@
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
 using V430ToMySQL.Service;
 
 namespace V430ToMySQL.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : MyViewModelBase
     {
         public MainViewModel()
         {
-
+            _mySqlIp = "127.0.0.1";
+            _mySqlPort = 3306;
+            _databaseName = "database1";
+            _userName = "root";
+            _password = "1226";
+            
         }
 
         #region Action
-        void Action1() 
-        { 
-            Debug.WriteLine(MethodBase.GetCurrentMethod().Name);
-            var db = new MySQLService("Server=localhost;Port=3306;Database=database1;Uid=root;Pwd=1226;charset=utf8;Convert Zero Datetime=True");
-            var table = db.Select("SELECT * FROM `table1`");
-            foreach(var item in table)
+        void ConnectToMySql()
+        {
+            try
             {
-                Debug.Write(item["ID"]); Debug.Write("  ");
-                Debug.Write(item["Code"]); Debug.Write("  ");
-                Debug.Write(item["Time"]);
-                Debug.WriteLine("");
+                _db = new MySQLService($"Server={_mySqlIp};" +
+                    $"Port={_mySqlPort};" +
+                    $"Database={_databaseName};" +
+                    $"Uid={_userName};" +
+                    $"Pwd={_password};" +
+                    $"charset=utf8;Convert Zero Datetime=True");
+                MySqlConnected = true;
+            }
+            catch(Exception ex)
+            {
+                MySqlConnected = false;
+                throw ex;
             }
         }
-        void Action2() { Debug.WriteLine(MethodBase.GetCurrentMethod().Name); }
-        void Action3() { Debug.WriteLine(MethodBase.GetCurrentMethod().Name); }
-        void Action4() { Debug.WriteLine(MethodBase.GetCurrentMethod().Name); }
-        void Action5() { Debug.WriteLine(MethodBase.GetCurrentMethod().Name); }
-        void Action6() { Debug.WriteLine(MethodBase.GetCurrentMethod().Name); }
+        void DisConnectToMySql()
+        {
+            try 
+            {
+                if (_db != null || MySqlConnected) _db.CloseConnection();
+                MySqlConnected = false;
+            }
+            catch (Exception ex)
+            {
+                MySqlConnected = false;
+                throw ex;
+            }
+        }
+        void Action1() 
+        {
+            ConnectToMySql();
+            _db.Insert(@"INSERT INTO `table1` (`Code`, `Time`) VALUES ('1234', '20191130');");
+            //Message.WriteLine(MethodBase.GetCurrentMethod().Name);
+
+            //var table = _db.Select("SELECT * FROM `table1`");
+            //foreach(var item in table)
+            //{
+            //    Message.Write(item["ID"].ToString(),timestamp:false); Message.Write("  ", timestamp: false);
+            //    Message.Write(item["Code"].ToString(), timestamp: false); Message.Write("  ", timestamp: false);
+            //    Message.Write(item["Time"].ToString(), timestamp: false);
+            //    Message.WriteLine(" ", timestamp: false);
+            //}
+        }
+        void Action2() 
+        {
+            //Message.WriteLine(MethodBase.GetCurrentMethod().Name); 
+        }
+        void Action3() { Message.WriteLine(MethodBase.GetCurrentMethod().Name); }
+        void Action4() { Message.WriteLine(MethodBase.GetCurrentMethod().Name); }
+        void Action5() { Message.WriteLine(MethodBase.GetCurrentMethod().Name); }
+        void Action6() { Message.WriteLine(MethodBase.GetCurrentMethod().Name); }
         #endregion
 
         #region к╫спЁит╠
@@ -42,12 +84,19 @@ namespace V430ToMySQL.ViewModel
         RelayCommand cmd5;
         RelayCommand cmd6;
 
-        string _ipV430;
-        int _portV430;
-        string _ipMySql;
-        int _portSql;
-        string _nameDatabase;
-        string _nameTable;
+        string _v430Ip;
+        int _v430Port;
+        string _mySqlIp;
+        int _mySqlPort;
+        string _databaseName;
+        string _tableName;
+        string _localIp;
+        string _userName;
+        string _password;
+
+        bool _mySqlConnected = false;
+
+        MySQLService _db;
 
         #endregion
 
@@ -58,12 +107,24 @@ namespace V430ToMySQL.ViewModel
         public RelayCommand Cmd4 { get => cmd4?? (cmd4 = new RelayCommand(Action4)); }
         public RelayCommand Cmd5 { get => cmd5?? (cmd5 = new RelayCommand(Action5)); }
         public RelayCommand Cmd6 { get => cmd6?? (cmd6 = new RelayCommand(Action6)); }
-        public string IpV430 { get => _ipV430; set => _ipV430 = value; }
-        public int PortV430 { get => _portV430; set => _portV430 = value; }
-        public string IpMySql { get => _ipMySql; set => _ipMySql = value; }
-        public int PortSql { get => _portSql; set => _portSql = value; }
-        public string NameDatabase { get => _nameDatabase; set => _nameDatabase = value; }
-        public string NameTable { get => _nameTable; set => _nameTable = value; }
+        public string V430Ip { get => _v430Ip; set { _v430Ip = value; OnPropertyChanged(()=> V430Ip); } }
+        public int V430Port { get => _v430Port; set { _v430Port = value; OnPropertyChanged(() => V430Port); } }
+        public string MySqlIp { get => _mySqlIp; set { _mySqlIp = value; OnPropertyChanged(() => MySqlIp); } }
+        public int MySqlPort { get => _mySqlPort; set { _mySqlPort = value; OnPropertyChanged(() => MySqlPort); } }
+        public string DatabaseName { get => _databaseName; set { _databaseName = value; OnPropertyChanged(() => DatabaseName); } }
+        public string TableName { get => _tableName; set { _tableName = value; OnPropertyChanged(() => TableName); } }
+        public string LocalIp { get => _localIp; set { _localIp = value; OnPropertyChanged(() => LocalIp); } }
+        public string UserName { get => _userName; set { _userName = value; OnPropertyChanged(() => UserName); } }
+        public string Password { get => _password; set { _password = value; OnPropertyChanged(() => Password); } }
+        public bool MySqlConnected { get => _mySqlConnected; set { _mySqlConnected = value; OnPropertyChanged(() => MySqlConnected); } }
+
+
+        public ObservableCollection<string> V430IpList { get; set; }
+        public ObservableCollection<string> MySqlIpList { get; set; }
+        public ObservableCollection<string> DatabaseNameList { get; set; }
+        public ObservableCollection<string> TableNameList { get; set; }
+        public ObservableCollection<int> V430PortList { get; set; }
+        public ObservableCollection<int> MySqlPortList { get; set; }
 
         #endregion
     }
