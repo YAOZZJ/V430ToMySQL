@@ -10,17 +10,48 @@
         <Fluent:Ribbon>
             <Fluent:RibbonTabItem Header="Home">
                 <Fluent:RibbonGroupBox Header="Main">
-                    <Fluent:Button Size="Middle" Command="{Binding Cmd1}">B1</Fluent:Button>
-                    <Fluent:Button Size="Middle" Command="{Binding Cmd2}">B2</Fluent:Button>
-                    <Fluent:Button Size="Middle" Command="{Binding Cmd3}">B3</Fluent:Button>
-                    <Fluent:Button Size="Middle" Command="{Binding Cmd4}">B4</Fluent:Button>
-                    <Fluent:Button Size="Middle" Command="{Binding Cmd5}">B5</Fluent:Button>
-                    <Fluent:Button Size="Middle" Command="{Binding Cmd6}">B6</Fluent:Button>
+                    <Fluent:Button Size="Middle" Command="{Binding Cmd1}" Width="70">Refresh</Fluent:Button>
+                    <Fluent:Button Size="Middle" Command="{Binding Cmd2}" Width="70">Clear</Fluent:Button>
                 </Fluent:RibbonGroupBox>
-                <Fluent:RibbonGroupBox Header="Connection">
-                    <Fluent:ToggleButton Size="Middle">Connect To V430</Fluent:ToggleButton>
-                    <Fluent:ToggleButton Size="Middle">Connect To MySql</Fluent:ToggleButton>
+                <Fluent:RibbonGroupBox Header="V430 Connection">
+                    <Fluent:ToggleButton Size="Large" Width="64">Connect</Fluent:ToggleButton>
+                    <Fluent:Button Size="Large" Width="64">Send</Fluent:Button>
                 </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="MySql Connection">
+                    <Fluent:ToggleButton Size="Large" Width="64">Auto Send</Fluent:ToggleButton>
+                    <Fluent:Button Size="Large" Width="64" Command="{Binding InsertCmd}">Send</Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="MySql Data">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Fluent:CheckBox Grid.Column="0" Grid.Row="0">Id</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="0" Grid.Row="1">Code</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="0" Grid.Row="2">DateTime</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="1" Grid.Row="0" x:Name="ChkAutoId">Manual</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="1" Grid.Row="1" x:Name="ChkAutoCode">Manual</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="1" Grid.Row="2" x:Name="ChkAutoTime">Manual</Fluent:CheckBox>
+                        <Fluent:TextBox Grid.Column="2" Grid.Row="0" Width="180"
+                                        IsEnabled="{Binding ElementName=ChkAutoId,Path=IsChecked}"
+                                         Text="{Binding Id}"/>
+                        <Fluent:TextBox Grid.Column="2" Grid.Row="1" Width="180"
+                                        IsEnabled="{Binding ElementName=ChkAutoCode,Path=IsChecked}"
+                                         Text="{Binding Code}"/>
+                        <Fluent:TextBox Grid.Column="2" Grid.Row="2" Width="180"
+                                        IsEnabled="{Binding ElementName=ChkAutoTime,Path=IsChecked}"
+                                         Text="{Binding Time}"/>
+                    </Grid>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <Fluent:RibbonTabItem Header="Settings">
                 <Fluent:RibbonGroupBox Header="Comm Settings">
                     <Grid>
                         <Grid.ColumnDefinitions>

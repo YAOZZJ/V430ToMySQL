@@ -10,7 +10,7 @@ namespace V430ToMySQL.Service
             if (string.IsNullOrEmpty(msg)) return;
             string message = "";
             if (timestamp)
-                message = DateTime.Now.ToString(" HH:mm:ss fff") + " | ";
+                message = DateTime.Now.ToString(" HH:mm:ss.fff") + " | ";
             if (!string.IsNullOrEmpty(logger))
                 message += logger + " | ";
                 Messenger.Default.Send<String>(message + msg, "Message");
@@ -20,7 +20,7 @@ namespace V430ToMySQL.Service
             if (string.IsNullOrEmpty(msg)) return;
             string message = "";
             if (timestamp)
-                message = DateTime.Now.ToString(" HH:mm:ss fff") + " | ";
+                message = DateTime.Now.ToString(" HH:mm:ss.fff") + " | ";
             if (!string.IsNullOrEmpty(logger))
                 message += logger + " | ";
             Messenger.Default.Send<String>(message + msg + "\r\n", "Message");

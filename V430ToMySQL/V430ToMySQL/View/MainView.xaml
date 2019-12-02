@@ -15,10 +15,21 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <DataGrid x:Name="DtProduct" 
+                          HeadersVisibility="Column" 
+                          IsReadOnly="True" 
+                          AutoGenerateColumns="True" 
+                           AutoGeneratingColumn="DtProduct_AutoGeneratingColumn"
+                          AlternationCount="2"
+                          CanUserAddRows="False">
+                </DataGrid>
+            </StackPanel>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
-            <TextBox x:Name="TxtMessage" Grid.Column="2" IsReadOnly="True" MinWidth="200"/>
+            <TextBox x:Name="TxtMessage" Grid.Column="2" IsReadOnly="True" 
+                     HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
         </Grid>
     </DockPanel>
 </Window>

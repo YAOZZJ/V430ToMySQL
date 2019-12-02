@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using MySql.Data.MySqlClient;
-using MySql.Data;
-using System.Data.SqlClient;
+//using MySql.Data;
+//using System.Data.SqlClient;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Data;
 
 namespace V430ToMySQL.Service
 {
@@ -77,6 +78,13 @@ namespace V430ToMySQL.Service
 
             dataReader.Close();
             return result;
+        }
+        public DataTable GetTable(string sql, object data = null)
+        {
+            MySqlDataAdapter adapter = new MySqlDataAdapter(sql, Connection);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            return table;
         }
 
         /// <summary>
