@@ -2,7 +2,6 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Reflection;
 using V430ToMySQL.Service;
 
@@ -12,16 +11,21 @@ namespace V430ToMySQL.ViewModel
     {
         public MainViewModel()
         {
-            _mySqlIp = "127.0.0.1";
-            _mySqlPort = 3306;
-            _databaseName = "database1";
-            _userName = "root";
-            _password = "1226";
-            _tableName = "Table1";
             _time = DateTime.Now.ToLocalTime();
+            _Config = Config.LoadAsXML();
         }
 
         #region Action
+        /// <summary>
+        /// 窗体关闭操作
+        /// </summary>
+        void Closing()
+        {
+            _Config.SaveAsXML();
+        }
+        /// <summary>
+        /// 向MySql插入数据
+        /// </summary>
         void Insert()
         {
             string sql = $"INSERT INTO `{TableName}` (`Code`, `Time`) VALUES ('{Code}', '{Time}');";
@@ -30,15 +34,19 @@ namespace V430ToMySQL.ViewModel
             _db.Insert(sql);
             Message.WriteLine("Done", "Main");
         }
+        /// <summary>
+        /// 连接MySql
+        /// </summary>
+        /// <returns></returns>
         bool ConnectToMySql()
         {
             try
             {
-                _db = new MySQLService($"Server={_mySqlIp};" +
-                    $"Port={_mySqlPort};" +
-                    $"Database={_databaseName};" +
-                    $"Uid={_userName};" +
-                    $"Pwd={_password};" +
+                _db = new MySQLService($"Server={MySqlIp};" +
+                    $"Port={MySqlPort};" +
+                    $"Database={DatabaseName};" +
+                    $"Uid={UserName};" +
+                    $"Pwd={Password};" +
                     $"charset=utf8;Convert Zero Datetime=True");
                 MySqlConnected = true;
                 return true;
@@ -51,19 +59,22 @@ namespace V430ToMySQL.ViewModel
                 return false;
             }
         }
-        void DisConnectToMySql()
-        {
-            try 
-            {
-                if (_db != null || MySqlConnected) _db.CloseConnection();
-                MySqlConnected = false;
-            }
-            catch (Exception ex)
-            {
-                MySqlConnected = false;
-                throw ex;
-            }
-        }
+        //void DisConnectToMySql()
+        //{
+        //    try 
+        //    {
+        //        if (_db != null || MySqlConnected) _db.CloseConnection();
+        //        MySqlConnected = false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MySqlConnected = false;
+        //        throw ex;
+        //    }
+        //}
+        /// <summary>
+        /// 获取Table数据
+        /// </summary>
         void Action1() 
         {
             Messenger.Default.Send<CommandItem>
@@ -81,60 +92,42 @@ namespace V430ToMySQL.ViewModel
         void Action2() 
         {
             Message.WriteLine(MethodBase.GetCurrentMethod().Name);
+
         }
-        void Action3() { Message.WriteLine(MethodBase.GetCurrentMethod().Name); }
-        void Action4() { Message.WriteLine(MethodBase.GetCurrentMethod().Name); }
-        void Action5() { Message.WriteLine(MethodBase.GetCurrentMethod().Name); }
-        void Action6() { Message.WriteLine(MethodBase.GetCurrentMethod().Name); }
         #endregion
 
         #region 私有成员
         RelayCommand cmd1;
         RelayCommand cmd2;
-        RelayCommand cmd3;
-        RelayCommand cmd4;
-        RelayCommand cmd5;
-        RelayCommand cmd6;
         RelayCommand insertCmd;
+        RelayCommand closingcmd;
 
         int _id;
         string _code;
         DateTime _time;
 
-        string _v430Ip;
-        int _v430Port;
-        string _mySqlIp;
-        int _mySqlPort;
-        string _databaseName;
-        string _tableName;
-        string _localIp;
-        string _userName;
-        string _password;
-
         bool _mySqlConnected = false;
 
         MySQLService _db;
+        readonly Config _Config;
 
         #endregion
 
         #region 公共成员
         public RelayCommand Cmd1 { get => cmd1?? (cmd1 = new RelayCommand(Action1)); }
         public RelayCommand Cmd2 { get => cmd2?? (cmd2 = new RelayCommand(Action2)); }
-        public RelayCommand Cmd3 { get => cmd3?? (cmd3 = new RelayCommand(Action3)); }
-        public RelayCommand Cmd4 { get => cmd4?? (cmd4 = new RelayCommand(Action4)); }
-        public RelayCommand Cmd5 { get => cmd5?? (cmd5 = new RelayCommand(Action5)); }
-        public RelayCommand Cmd6 { get => cmd6?? (cmd6 = new RelayCommand(Action6)); }
         public RelayCommand InsertCmd { get => insertCmd ?? (insertCmd = new RelayCommand(Insert)); }
+        public RelayCommand Closingcmd { get => closingcmd ?? (closingcmd = new RelayCommand(Closing)); }
 
-        public string V430Ip { get => _v430Ip; set { _v430Ip = value; OnPropertyChanged(()=> V430Ip); } }
-        public int V430Port { get => _v430Port; set { _v430Port = value; OnPropertyChanged(() => V430Port); } }
-        public string MySqlIp { get => _mySqlIp; set { _mySqlIp = value; OnPropertyChanged(() => MySqlIp); } }
-        public int MySqlPort { get => _mySqlPort; set { _mySqlPort = value; OnPropertyChanged(() => MySqlPort); } }
-        public string DatabaseName { get => _databaseName; set { _databaseName = value; OnPropertyChanged(() => DatabaseName); } }
-        public string TableName { get => _tableName; set { _tableName = value; OnPropertyChanged(() => TableName); } }
-        public string LocalIp { get => _localIp; set { _localIp = value; OnPropertyChanged(() => LocalIp); } }
-        public string UserName { get => _userName; set { _userName = value; OnPropertyChanged(() => UserName); } }
-        public string Password { get => _password; set { _password = value; OnPropertyChanged(() => Password); } }
+        public string V430Ip { get => _Config.V430Ip; set { _Config.V430Ip = value; OnPropertyChanged(()=> V430Ip); } }
+        public int V430Port { get => _Config.V430Port; set { _Config.V430Port = value; OnPropertyChanged(() => V430Port); } }
+        public string MySqlIp { get => _Config.MySqlIp; set { _Config.MySqlIp = value; OnPropertyChanged(() => MySqlIp); } }
+        public int MySqlPort { get => _Config.MySqlPort; set { _Config.MySqlPort = value; OnPropertyChanged(() => MySqlPort); } }
+        public string DatabaseName { get => _Config.DatabaseName; set { _Config.DatabaseName = value; OnPropertyChanged(() => DatabaseName); } }
+        public string TableName { get => _Config.TableName; set { _Config.TableName = value; OnPropertyChanged(() => TableName); } }
+        public string LocalIp { get => _Config.LocalIp; set { _Config.LocalIp = value; OnPropertyChanged(() => LocalIp); } }
+        public string UserName { get => _Config.UserName; set { _Config.UserName = value; OnPropertyChanged(() => UserName); } }
+        public string Password { get => _Config.Password; set { _Config.Password = value; OnPropertyChanged(() => Password); } }
         public bool MySqlConnected { get => _mySqlConnected; set { _mySqlConnected = value; OnPropertyChanged(() => MySqlConnected); } }
 
         public int Id { get => _id; set { _id = value; OnPropertyChanged(() => Id); } }

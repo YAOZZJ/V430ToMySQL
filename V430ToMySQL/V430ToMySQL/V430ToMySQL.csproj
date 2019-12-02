@@ -74,14 +74,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Control\ObjectPersistence.cs" />
     <Compile Include="Control\Ribbon.xaml.cs">
       <DependentUpon>Ribbon.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\StatusBar.xaml.cs">
       <DependentUpon>StatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\XmlCtrl.cs" />
     <Compile Include="Service\CommandItem.cs" />
+    <Compile Include="Service\Config.cs" />
     <Compile Include="Service\Message.cs" />
     <Compile Include="Service\MySQLService.cs" />
     <Compile Include="Service\MyViewModelBase.cs" />

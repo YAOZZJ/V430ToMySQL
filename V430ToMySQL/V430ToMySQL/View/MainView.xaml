@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ctrl="clr-namespace:V430ToMySQL.Control"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:V430ToMySQL.View"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator},Path=Main}"
@@ -32,4 +33,9 @@
                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
         </Grid>
     </DockPanel>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Closingcmd}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 </Window>
