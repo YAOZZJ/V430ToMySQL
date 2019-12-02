@@ -14,12 +14,11 @@
                     <Fluent:Button Size="Middle" Command="{Binding Cmd2}" Width="70">Clear</Fluent:Button>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="V430 Connection">
-                    <Fluent:ToggleButton Size="Large" Width="64">Connect</Fluent:ToggleButton>
-                    <Fluent:Button Size="Large" Width="64">Send</Fluent:Button>
+                    <Fluent:ToggleButton Size="Large" Width="64" Command="{Binding ConnectCmd}" IsChecked="{Binding IsConnect}">Connect</Fluent:ToggleButton>
+                    <Fluent:Button Size="Large" Width="64" Command="{Binding SendCmd}">Send</Fluent:Button>
                 </Fluent:RibbonGroupBox>
-                <Fluent:RibbonGroupBox Header="MySql Connection">
-                    <Fluent:ToggleButton Size="Large" Width="64">Auto Send</Fluent:ToggleButton>
-                    <Fluent:Button Size="Large" Width="64" Command="{Binding InsertCmd}">Send</Fluent:Button>
+                <Fluent:RibbonGroupBox Header="MySql">
+                    <Fluent:Button Size="Large" Width="64" Command="{Binding InsertCmd}">Insert</Fluent:Button>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="MySql Data">
                     <Grid>
@@ -33,12 +32,12 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Fluent:CheckBox Grid.Column="0" Grid.Row="0">Id</Fluent:CheckBox>
-                        <Fluent:CheckBox Grid.Column="0" Grid.Row="1">Code</Fluent:CheckBox>
-                        <Fluent:CheckBox Grid.Column="0" Grid.Row="2">DateTime</Fluent:CheckBox>
-                        <Fluent:CheckBox Grid.Column="1" Grid.Row="0" x:Name="ChkAutoId">Manual</Fluent:CheckBox>
-                        <Fluent:CheckBox Grid.Column="1" Grid.Row="1" x:Name="ChkAutoCode">Manual</Fluent:CheckBox>
-                        <Fluent:CheckBox Grid.Column="1" Grid.Row="2" x:Name="ChkAutoTime">Manual</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="0" Grid.Row="0" IsChecked="{Binding ChkIdEnable}">Id</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding ChkCodeEnable}">Code</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="0" Grid.Row="2" IsChecked="{Binding ChkTimeEnable}">DateTime</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="1" Grid.Row="0" x:Name="ChkAutoId" IsChecked="{Binding ChkIdManual}">Manual</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="1" Grid.Row="1" x:Name="ChkAutoCode" IsChecked="{Binding ChkCodeManual}">Manual</Fluent:CheckBox>
+                        <Fluent:CheckBox Grid.Column="1" Grid.Row="2" x:Name="ChkAutoTime" IsChecked="{Binding ChkTimeManual}">Manual</Fluent:CheckBox>
                         <Fluent:TextBox Grid.Column="2" Grid.Row="0" Width="180"
                                         IsEnabled="{Binding ElementName=ChkAutoId,Path=IsChecked}"
                                          Text="{Binding Id}"/>
@@ -52,7 +51,7 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="Settings">
-                <Fluent:RibbonGroupBox Header="Comm Settings">
+                <Fluent:RibbonGroupBox Header="V430 Settings">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -66,18 +65,16 @@
                         <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right">RemoteIP</TextBlock>
                         <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">LocalIP</TextBlock>
                         <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Port</TextBlock>
-                        <Fluent:ComboBox Grid.Row="0" Grid.Column="1" Width="120" 
-                                         SelectedIndex="0" ItemsSource="{Binding V430IpList}"
+                        <Fluent:TextBox Grid.Row="0" Grid.Column="1" Width="120" 
                                          Text="{Binding V430Ip}"
-                                         ></Fluent:ComboBox>
+                                         ></Fluent:TextBox>
                         <Fluent:TextBox Grid.Row="1" Grid.Column="1" Width="120" 
                                          IsReadOnly="True"
                                          Text="{Binding LocalIp}"
                                          ></Fluent:TextBox>
-                        <Fluent:ComboBox Grid.Row="2" Grid.Column="1" Width="120" 
-                                         SelectedIndex="0" ItemsSource="{Binding V430PortList}"
+                        <Fluent:TextBox Grid.Row="2" Grid.Column="1" Width="120" 
                                          Text="{Binding V430Port}"
-                                         ></Fluent:ComboBox>
+                                         ></Fluent:TextBox>
                     </Grid>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="MySQL Settings">
@@ -106,24 +103,38 @@
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="User"/>
                         <TextBlock Grid.Row="1" Grid.Column="2" Text="Password"/>
                         <TextBlock Grid.Row="2" Grid.Column="2" Text="Table"/>
-                        <Fluent:ComboBox Grid.Row="0" Grid.Column="1" Width="120"
-                                         SelectedIndex="0" ItemsSource="{Binding MySqlIpList}"
+                        <Fluent:TextBox Grid.Row="0" Grid.Column="1" Width="120"
                                          Text="{Binding MySqlIp}"
                                          />
-                        <Fluent:ComboBox Grid.Row="1" Grid.Column="1" Width="120"
-                                         SelectedIndex="0" ItemsSource="{Binding MySqlPortList}"
+                        <Fluent:TextBox Grid.Row="1" Grid.Column="1" Width="120"
                                          Text="{Binding MySqlPort}"
                                          />
-                        <Fluent:ComboBox Grid.Row="2" Grid.Column="1" Width="120"
-                                         SelectedIndex="0" ItemsSource="{Binding DatabaseNameList}"
+                        <Fluent:TextBox Grid.Row="2" Grid.Column="1" Width="120"
                                          Text="{Binding DatabaseName}"
                                          />
                         <Fluent:TextBox Grid.Row="0" Grid.Column="3" Width="120" Text="{Binding UserName}"/>
                         <Fluent:TextBox Grid.Row="1" Grid.Column="3" Width="120" Text="{Binding Password}"/>
-                        <Fluent:ComboBox Grid.Row="2" Grid.Column="3" Width="120"
-                                         SelectedIndex="0" ItemsSource="{Binding TableNameList}"
+                        <Fluent:TextBox Grid.Row="2" Grid.Column="3" Width="120"
                                          Text="{Binding TableName}"
                                          />
+                    </Grid>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Comm Settings">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="5 0 5 0">V430</TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="5 0 5 0">MySql</TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="5 0 5 5">Startup</TextBlock>
+                        <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding ChkV430AutoConnect}">Auto Connect</CheckBox>
+                        <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding ChkMySqlAutoInsert}">Auto Send</CheckBox>
                     </Grid>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>

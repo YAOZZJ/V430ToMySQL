@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,7 +27,6 @@ namespace V430ToMySQL.View
                 //Application.Current.Dispatcher.BeginInvoke(new Action(() => { Refresh(command); }));
                 Refresh(command);
             });
-            
         }
         CommandItem _command;
         void Refresh(CommandItem command)

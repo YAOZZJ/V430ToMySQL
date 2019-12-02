@@ -1,4 +1,5 @@
 ﻿using MyToolkits.Unitities.File.Xml;
+using System.Collections.Generic;
 
 namespace V430ToMySQL.Service
 {
@@ -13,6 +14,7 @@ namespace V430ToMySQL.Service
         public string LocalIp { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public bool[] IsEnable { get; set; } = new bool[16];
 
     }
 }

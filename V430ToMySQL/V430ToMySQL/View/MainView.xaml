@@ -37,5 +37,8 @@
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding Closingcmd}"/>
         </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCmd}"/>
+        </i:EventTrigger>
     </i:Interaction.Triggers>
 </Window>
