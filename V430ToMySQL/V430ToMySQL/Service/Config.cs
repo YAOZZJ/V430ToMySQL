@@ -15,6 +15,7 @@ namespace V430ToMySQL.Service
         public string UserName { get; set; }
         public string Password { get; set; }
         public bool[] IsEnable { get; set; } = new bool[16];
+        public int PageLimit { get; set; }
 
     }
 }

@@ -61,6 +61,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resource\Icon\sum_24px_1103614_easyicon.net.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net40\CommonServiceLocator.dll</HintPath>
@@ -176,6 +179,26 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resource\CustomControl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icon\forward.ico" />
+    <Resource Include="Resource\Icon\cog_16px_1103526_easyicon.net.ico" />
+    <Resource Include="Resource\Icon\exit_16px_1103533_easyicon.net.ico" />
+    <Resource Include="Resource\Icon\fast_backward.ico" />
+    <Resource Include="Resource\Icon\fast_forward.ico" />
+    <Resource Include="Resource\Icon\repeat.png" />
+    <Resource Include="Resource\Icon\repeat_24px_1103591_easyicon.net.png" />
+    <Resource Include="Resource\Icon\sum_24px_1103614_easyicon.net.ico" />
+    <Resource Include="Resource\Icon\backward.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\MyToolkits\MyToolkits\MyToolkits.Resources.Toolkit.Wpf\MyToolkits.Resources.Toolkit.Wpf.csproj">
+      <Project>{918ff26d-47d3-4540-8bc3-7fc6e9e7d2fe}</Project>
+      <Name>MyToolkits.Resources.Toolkit.Wpf</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

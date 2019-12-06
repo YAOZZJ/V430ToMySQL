@@ -38,14 +38,15 @@ namespace V430ToMySQL.View
                     try
                     {
                         _command = command;
-                        AppendText($"{DateTime.Now.ToString(" HH:mm:ss.fff")} | Main | select * from {_command.TableName}\r\n");
-                        MySQLService _db = new MySQLService($"Server={_command.MySqlIp};" +
-                                $"Port={_command.MySqlPort};" +
-                                $"Database={_command.DatabaseName};" +
-                                $"Uid={_command.UserName};" +
-                                $"Pwd={_command.Password};" +
-                                $"charset=utf8;Convert Zero Datetime=True");
-                        DtProduct.ItemsSource = _db.GetTable($"select * from {_command.TableName}").AsDataView();
+                        //AppendText($"{DateTime.Now.ToString(" HH:mm:ss.fff")} | Main | select * from {_command.TableName}\r\n");
+                        //MySQLService _db = new MySQLService($"Server={_command.MySqlIp};" +
+                        //        $"Port={_command.MySqlPort};" +
+                        //        $"Database={_command.DatabaseName};" +
+                        //        $"Uid={_command.UserName};" +
+                        //        $"Pwd={_command.Password};" +
+                        //        $"charset=utf8;Convert Zero Datetime=True");
+                        //DtProduct.ItemsSource = _db.GetTable($"select * from {_command.TableName}").AsDataView();
+                        DtProduct.ItemsSource = _command.Table;
                     }
                     catch (Exception ex)
                     {

@@ -3,8 +3,11 @@ using GalaSoft.MvvmLight.Messaging;
 using MyToolkits.Sockets;
 using System;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using V430ToMySQL.Service;
 
 namespace V430ToMySQL.ViewModel
@@ -15,11 +18,43 @@ namespace V430ToMySQL.ViewModel
         {
             _time = DateTime.Now.ToLocalTime();
             _Config = Config.LoadAsXML();
+            currentPage = 1;
         }
 
         #region Action
         
         #region MySql
+        void PageAddAction()
+        {
+            CurrentPage++;
+            GetTable();
+        }
+        void PageSubAction()
+        {
+            CurrentPage--;
+            GetTable();
+        }
+        void PageFirstAction()
+        {
+            CurrentPage = 1;
+            GetTable();
+        }
+        void PageLastAction()
+        {
+            MySQLService _db = new MySQLService($"Server={this.MySqlIp};" +
+                                        $"Port={this.MySqlPort};" +
+                                        $"Database={this.DatabaseName};" +
+                                        $"Uid={this.UserName};" +
+                                        $"Pwd={this.Password};" +
+                                        $"charset=utf8;Convert Zero Datetime=True");
+            RecordCount = _db.Count($"select count(*) as num from {this.TableName}");
+            if (PageLimit > 0)
+            {
+                CurrentPage = (int)(RecordCount / PageLimit);
+                if ((RecordCount % PageLimit) != 0) CurrentPage++;
+            }
+            GetTable();
+        }
         /// <summary>
         /// 向MySql插入数据
         /// </summary>
@@ -57,35 +92,40 @@ namespace V430ToMySQL.ViewModel
                 return false;
             }
         }
-        //void DisConnectToMySql()
-        //{
-        //    try 
-        //    {
-        //        if (_db != null || MySqlConnected) _db.CloseConnection();
-        //        MySqlConnected = false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MySqlConnected = false;
-        //        throw ex;
-        //    }
-        //}
-        /// <summary>
-        /// 获取Table数据
-        /// </summary>
+        void GetTable()
+        {
+            Message.WriteLine($"select * from {this.TableName} limit {(currentPage - 1) * PageLimit},{PageLimit}", logger: "Main");
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    MySQLService _db = new MySQLService($"Server={this.MySqlIp};" +
+                                        $"Port={this.MySqlPort};" +
+                                        $"Database={this.DatabaseName};" +
+                                        $"Uid={this.UserName};" +
+                                        $"Pwd={this.Password};" +
+                                        $"charset=utf8;Convert Zero Datetime=True");
+                    RecordCount = _db.Count($"select count(*) as num from {this.TableName}");
+                    DataView table;
+                    if (PageLimit <= 0)
+                    table = _db.GetTable($"select * from {this.TableName}").AsDataView();
+                    else
+                    table = _db.GetTable($"select * from {this.TableName} limit {(currentPage - 1) * PageLimit},{PageLimit}").AsDataView();
+                    Messenger.Default.Send<CommandItem>
+                    (new CommandItem()
+                    {
+                        Table = table
+                    }, "Command");
+                });
+            }
+            catch (Exception ex)
+            {
+                Message.WriteLine(ex.Message, logger: "Main");
+            }
+        }
         void Action1() 
         {
-            Messenger.Default.Send<CommandItem>
-                (new CommandItem()
-                {
-                    MySqlIp = this.MySqlIp,
-                    MySqlPort  = this.MySqlPort,
-                    DatabaseName = this.DatabaseName,
-                    TableName = this.TableName,
-                    UserName = this.UserName,
-                    Password = this.Password
-                }
-                , "Command");
+            GetTable();
         }
         #endregion MySql
 
@@ -165,6 +205,8 @@ namespace V430ToMySQL.ViewModel
         void Closing()
         {
             _Config.SaveAsXML();
+            if(_client != null)
+            if (_client.Connected) _client.Close();
         }
 
         void Action2() 
@@ -184,6 +226,10 @@ namespace V430ToMySQL.ViewModel
         RelayCommand connectCmd;
         RelayCommand sendCmd;
         RelayCommand loadedCmd;
+        RelayCommand pageAddCmd;
+        RelayCommand pageSubCmd;
+        RelayCommand pageFirstCmd;
+        RelayCommand pageLastCmd;
 
         int _id;
         string _code;
@@ -192,6 +238,8 @@ namespace V430ToMySQL.ViewModel
         bool _isConnect = false;
 
         bool _mySqlConnected = false;
+        int recordCount;
+        int currentPage;
 
         MySQLService _db;
         readonly Config _Config;
@@ -208,6 +256,10 @@ namespace V430ToMySQL.ViewModel
         public RelayCommand ConnectCmd { get => connectCmd ?? (connectCmd = new RelayCommand(ConnectAction));}
         public RelayCommand SendCmd { get => sendCmd ?? (sendCmd = new RelayCommand(SendAction));}
         public RelayCommand LoadedCmd { get => loadedCmd ?? (loadedCmd = new RelayCommand(LoadedAction));  }
+        public RelayCommand PageAddCmd { get => pageAddCmd ?? (pageAddCmd = new RelayCommand(PageAddAction)); }
+        public RelayCommand PageSubCmd { get => pageSubCmd ?? (pageSubCmd = new RelayCommand(PageSubAction)); }
+        public RelayCommand PageFirstCmd { get => pageFirstCmd ?? (pageFirstCmd = new RelayCommand(PageFirstAction)); }
+        public RelayCommand PageLastCmd { get => pageLastCmd ?? (pageLastCmd = new RelayCommand(PageLastAction)); }
 
 
         public string V430Ip { get => _Config.V430Ip; set { _Config.V430Ip = value; OnPropertyChanged(()=> V430Ip); } }
@@ -225,6 +277,9 @@ namespace V430ToMySQL.ViewModel
         public string Code { get => _code; set { _code = value; OnPropertyChanged(() => Code); } }
         public string Time { get => _time.ToString("yyyy-MM-dd HH:mm:ss.ffff"); set { _time = Convert.ToDateTime(value); OnPropertyChanged(() => Time); } }
 
+        public int RecordCount { get => recordCount; set { recordCount = value; OnPropertyChanged(() => RecordCount); } }
+        public int PageLimit { get => _Config.PageLimit; set { _Config.PageLimit = value; OnPropertyChanged(() => PageLimit); } }
+        public int CurrentPage { get => currentPage; set { { if (value <= 0) currentPage = 1;else currentPage = value; } OnPropertyChanged(() => CurrentPage); } }
         public bool IsConnect { get => _isConnect; set { _isConnect = value; OnPropertyChanged(() => IsConnect); } }
 
         public bool ChkIdEnable { get => _Config.IsEnable[00]; set { _Config.IsEnable[00] = value; OnPropertyChanged(() => ChkIdEnable); } }
@@ -235,6 +290,9 @@ namespace V430ToMySQL.ViewModel
         public bool ChkTimeManual { get => _Config.IsEnable[05]; set { _Config.IsEnable[05] = value; OnPropertyChanged(() => ChkTimeManual); } }
         public bool ChkV430AutoConnect { get => _Config.IsEnable[06]; set { _Config.IsEnable[06] = value; OnPropertyChanged(() => ChkV430AutoConnect); } }
         public bool ChkMySqlAutoInsert { get => _Config.IsEnable[07]; set { _Config.IsEnable[07] = value; OnPropertyChanged(() => ChkMySqlAutoInsert); } }
+
+        
+
 
 
         //public ObservableCollection<string> V430IpList { get; set; }

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ctrl="clr-namespace:V430ToMySQL.Control"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:controls="clr-namespace:MyToolkits.Resources.Toolkit.Wpf.Controls;assembly=MyToolkits.Resources.Toolkit.Wpf"
         xmlns:local="clr-namespace:V430ToMySQL.View"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator},Path=Main}"
@@ -18,8 +19,26 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                    <controls:ButtonEx ButtonType="Icon" Icon="/Resource/Icon/fast_forward.ico" Command="{Binding PageFirstCmd}" Margin="5 5 5 5"></controls:ButtonEx>
+                    <controls:ButtonEx ButtonType="Icon" Icon="/Resource/Icon/forward.ico" Command="{Binding PageSubCmd}" Margin="5 5 5 5"></controls:ButtonEx>
+                    <TextBox Width="50" Text="{Binding CurrentPage}" Margin="5 5 5 5"></TextBox>
+                    <controls:ButtonEx ButtonType="Icon" Icon="/Resource/Icon/backward.ico" Command="{Binding PageAddCmd}" Margin="5 5 5 5"></controls:ButtonEx>
+                    <controls:ButtonEx ButtonType="Icon" Icon="/Resource/Icon/fast_backward.ico" Command="{Binding PageLastCmd}" Margin="5 5 5 5"></controls:ButtonEx>
+                    <controls:ButtonEx ButtonType="Icon" Icon="/Resource/Icon/repeat.png" Command="{Binding Cmd1}" Margin="5 5 5 5"></controls:ButtonEx>
+                    <TextBlock Margin="5 5 5 5" Text="{Binding RecordCount, StringFormat=共找到: {0} 条记录}"/>
+                    <TextBox Width="50" Margin="5 5 0 5" VerticalAlignment="Center" 
+                             Text="{Binding PageLimit}"
+                             ></TextBox>
+                    <TextBlock Margin="5 0 5 5" VerticalAlignment="Center">/页</TextBlock>
+                </StackPanel>
                 <DataGrid x:Name="DtProduct" 
+                          Grid.Row="1"
                           HeadersVisibility="Column" 
                           IsReadOnly="True" 
                           AutoGenerateColumns="True" 
@@ -27,7 +46,7 @@
                           AlternationCount="2"
                           CanUserAddRows="False">
                 </DataGrid>
-            </StackPanel>
+            </Grid>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
             <TextBox x:Name="TxtMessage" Grid.Column="2" IsReadOnly="True" 
                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>

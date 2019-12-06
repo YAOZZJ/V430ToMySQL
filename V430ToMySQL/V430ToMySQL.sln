@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "V430ToMySQL", "V430ToMySQL\V430ToMySQL.csproj", "{4443CD11-1A42-4DBA-8BA4-4CE9E7496A63}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{14C63758-A511-4E94-8705-23DCB9C55011}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToolkits.Resources.Toolkit.Wpf", "..\..\MyToolkits\MyToolkits\MyToolkits.Resources.Toolkit.Wpf\MyToolkits.Resources.Toolkit.Wpf.csproj", "{918FF26D-47D3-4540-8BC3-7FC6E9E7D2FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{4443CD11-1A42-4DBA-8BA4-4CE9E7496A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4443CD11-1A42-4DBA-8BA4-4CE9E7496A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4443CD11-1A42-4DBA-8BA4-4CE9E7496A63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{918FF26D-47D3-4540-8BC3-7FC6E9E7D2FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{918FF26D-47D3-4540-8BC3-7FC6E9E7D2FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{918FF26D-47D3-4540-8BC3-7FC6E9E7D2FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{918FF26D-47D3-4540-8BC3-7FC6E9E7D2FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{918FF26D-47D3-4540-8BC3-7FC6E9E7D2FE} = {14C63758-A511-4E94-8705-23DCB9C55011}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B22E1C7-34F6-46DE-8EFE-3F2B3A6F9223}
