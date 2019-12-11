@@ -6,6 +6,7 @@
         xmlns:ctrl="clr-namespace:V430ToMySQL.Control"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:controls="clr-namespace:MyToolkits.Resources.Toolkit.Wpf.Controls;assembly=MyToolkits.Resources.Toolkit.Wpf"
+        xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
         xmlns:local="clr-namespace:V430ToMySQL.View"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator},Path=Main}"
@@ -49,6 +50,7 @@
             </Grid>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
             <TextBox x:Name="TxtMessage" Grid.Column="2" IsReadOnly="True" 
+                     VerticalAlignment="Top"
                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
         </Grid>
     </DockPanel>

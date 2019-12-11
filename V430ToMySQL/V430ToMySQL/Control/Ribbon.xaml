@@ -114,6 +114,33 @@
                                          />
                         <Fluent:TextBox Grid.Row="0" Grid.Column="3" Width="120" Text="{Binding UserName}"/>
                         <Fluent:TextBox Grid.Row="1" Grid.Column="3" Width="120" Text="{Binding Password}"/>
+                        <!--<TextBox Grid.Row="1" Grid.Column="3" Width="120" Text="{Binding Password}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="TextDecorations">
+                                        <Setter.Value>
+                                            <TextDecorationCollection>
+                                                <TextDecoration>
+                                                    <TextDecoration.Pen>
+                                                        <Pen Thickness="10" Brush="Black"   EndLineCap="Round" StartLineCap="Round"     DashCap="Round"  >
+                                                            <Pen.DashStyle>
+                                                                <DashStyle Dashes="0.0,1.2" Offset="0.6"/>
+                                                            </Pen.DashStyle>
+                                                        </Pen>
+                                                    </TextDecoration.Pen>
+                                                    <TextDecoration.Location>
+                                                        <TextDecorationLocation>Strikethrough</TextDecorationLocation>
+                                                    </TextDecoration.Location>
+                                                </TextDecoration>
+                                            </TextDecorationCollection>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="FontSize" Value="20"></Setter>
+                                    <Setter Property="FontFamily" Value="Courier New"></Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>-->
+                        <!--https://www.cnblogs.com/callyblog/p/7457501.html-->
                         <Fluent:TextBox Grid.Row="2" Grid.Column="3" Width="120"
                                          Text="{Binding TableName}"
                                          />
